@@ -23,6 +23,7 @@ import (
 	"runtime"
 	"runtime/pprof"
 	"strings"
+	"time"
 
 	"github.com/Sirupsen/logrus"
 	"github.com/dgraph-io/dgraph/loader"
@@ -74,6 +75,13 @@ func main() {
 	dataStore := new(store.Store)
 	dataStore.Init(*postingDir)
 	defer dataStore.Close()
+
+	go func() {
+		for {
+			glog.Info("store mem ", dataStore.IndexFilterblockSize(), " ", dataStore.MemtableSize())
+			time.Sleep(5 * time.Second)
+		}
+	}()
 
 	uidStore := new(store.Store)
 	uidStore.InitReadOnly(*uidDir)

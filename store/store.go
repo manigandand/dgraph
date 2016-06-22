@@ -92,3 +92,11 @@ func (s *Store) GetIterator() *rocksdb.Iterator {
 func (s *Store) Close() {
 	s.db.Close()
 }
+
+func (s *Store) MemtableSize() string {
+	return s.db.GetProperty("rocksdb.cur-size-all-mem-tables")
+}
+
+func (s *Store) IndexFilterblockSize() string {
+	return s.db.GetProperty("rocksdb.estimate-table-readers-mem")
+}

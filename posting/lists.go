@@ -184,6 +184,7 @@ func checkMemoryUsage() {
 	for _ = range time.Tick(5 * time.Second) {
 		var ms runtime.MemStats
 		runtime.ReadMemStats(&ms)
+		glog.Infof("memory: %v ", ms.Alloc)
 		if ms.Alloc > MAX_MEMORY {
 			aggressivelyEvict(ms)
 
